@@ -36,7 +36,7 @@ class NotificationScheduler @Inject constructor(
             PendingIntent.FLAG_IMMUTABLE)
         val alarmTime = System.currentTimeMillis() + delay
 
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,alarmTime,pendingIntent)
+        alarmManager.set(AlarmManager.RTC_WAKEUP,alarmTime,pendingIntent)
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -56,7 +56,6 @@ class NotificationScheduler @Inject constructor(
         val stopAlarmPendingIntent = PendingIntent.getBroadcast(ctx,1,stopAlarmIntent,flag)
         val ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
         val notificationSound = RingtoneManager.getRingtone(ctx,ringtoneUri)
-
         val notification =  NotificationCompat.Builder(ctx,"Main Channel ID")
             .setOngoing(true)
             .setContentTitle(title)
