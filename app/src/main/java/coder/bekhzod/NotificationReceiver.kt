@@ -1,7 +1,6 @@
 package coder.bekhzod
 
 import android.app.AlarmManager
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -28,10 +27,11 @@ class NotificationReceiver : BroadcastReceiver() {
         Log.d("TAG", "onCreate: NotificationReceiver is started")
 
         val notificationScheduler = NotificationScheduler(notificationManager, alarmManager)
-        notificationScheduler.scheduleNotification(
-            context!!,
-            5000
-        )
-        notificationScheduler.showNotification(ctx = context, title = "Hello world","My name is Bekhzod")
+        if (context != null) {
+            notificationScheduler.scheduleNotification(context, 0)
+        }
+        if (context != null) {
+            notificationScheduler.showNotification(ctx = context, title = "Hello world","My name is Bekhzod")
+        }
     }
 }

@@ -1,5 +1,9 @@
 package coder.bekhzod
 
+import android.app.AlarmManager
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import coder.bekhzod.ui.theme.ReminderAppPracticeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.annotation.Inherited
@@ -27,7 +32,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject lateinit var notificationScheduler: NotificationScheduler
+    @Inject lateinit var notificationManager: NotificationManagerCompat
+    @Inject lateinit var alarmManager:AlarmManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,27 +41,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Log.d("TAG", "onCreate: MainActivity is started")
             ReminderAppPracticeTheme {
-                Column (
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Button(onClick = {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-
-                            ActivityCompat.requestPermissions(
-                                this@MainActivity,
-                                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                                0
-                            )
-                        }
-
-                        notificationScheduler.scheduleNotification(this@MainActivity,5000)
-                    }) {
-                        Text(text = "Alarm")
-                    }
-                }
+                MainScreen(ctx = this@MainActivity,notificationManager, alarmManager)
             }
         }
     }

@@ -21,7 +21,9 @@
         <receiver android:name=".NotificationReceiver"
             android:enabled="true"
             android:exported="false"/>
-        <receiver android:name=".StopAlarm"/>
+        <receiver android:name=".StopAlarm"
+            android:enabled="true"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
